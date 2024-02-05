@@ -1,0 +1,39 @@
+<header>
+    <img src="../assets/Logo.png" class="logo">
+    <div>
+        <button class="btn-verde" (click)="abrirFormulario('Adicionar')">Adicionar</button>
+    </div>
+</header>
+
+<div class="lista-carros">
+    <div class="carro" *ngFor="let carro of carros">
+        <div><img src="{{carro.urlImagem}}"></div>
+        <div>{{carro.marca}}: {{carro.modelo}}</div>
+        <div>R$ {{carro.preco}}</div>
+        <button class="btn-azul" style="margin-right: 5px;" (click)="atualizarCarro(carro.id)">Atualizar</button>
+        <button class="btn-vermelho" style="margin-left: 5px;" (click)="abrirConfirmacao(carro)">Excluir</button>
+    </div>
+</div>
+
+<form class="formulario" #addForm="ngForm" (ngSubmit)="enviarCarro(addForm)" *ngIf="formularioAberto">
+    <h3 *ngIf="acao=='Adicionar'">Insira os dados do novo carro</h3>
+    <h3 *ngIf="acao=='Atualizar'">Insira os dados para atualização</h3>
+    <input type="text" ngModel name="marca" placeholder="Marca" required>
+    <input type="text" ngModel name="modelo" placeholder="Modelo" required>
+    <input type="text" ngModel name="cor" placeholder="Cor" required>
+    <input type="number" ngModel name="preco" placeholder="Preço">
+    <input type="url" ngModel name="urlImagem" placeholder="URL da Imagem" required>
+    <div class="botoes-opcao">
+        <button [disabled]="addForm.invalid" type="submit" class="btn-verde">{{acao}} Carro</button>
+        <button class="btn-vermelho" type="button" (click)="fecharFormulario()">Fechar</button>
+    </div>
+</form>
+
+<div *ngIf="confirmacaoAberta" class="confirmacao">
+    <h3>Tem certeza que deseja excluir {{carro.marca}} {{carro.modelo}}?</h3>
+    <div>
+        <button class="btn-verde" (click)="deletarCarro()">Sim</button>
+        <button class="btn-vermelho" (click)="fecharConfirmacao()"
+        style="margin-left: 10px;">Não</button>
+    </div>
+</div>
